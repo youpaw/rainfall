@@ -1,4 +1,4 @@
-# level1 asm analysis
+# level2 asm analysis
 
 ## main function analysis
 
@@ -105,7 +105,7 @@ Return address is being stored in stack above base pointer.
 <+44> Compare eax with 0xb0000000
 <+49> Jump on <p+83> if they are not equal (first byte is not equal to 'b' character)
 
-### Equal jump case:
+#### Equal jump case:
 
     0x08048507 <+51>:	mov    eax,0x8048620
     0x0804850c <+56>:	mov    edx,DWORD PTR [ebp-0xc]
@@ -120,7 +120,7 @@ Return address is being stored in stack above base pointer.
 <+66> Display return address printf("(%p)\n", (return address)) 
 <+78> Exit with error 1
 
-### Unequal jump case
+#### Unequal jump case
 
     0x08048527 <+83>:	lea    eax,[ebp-0x4c]
     0x0804852a <+86>:	mov    DWORD PTR [esp],eax
