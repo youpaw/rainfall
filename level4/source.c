@@ -15,10 +15,9 @@ void n(void)
 
     fgets(buff, 512, stdin);
     p(buff);
-    if (m == 64)
+    if (m == 16930116)
     {
-        fwrite("Wait what?!\n", 1, 12, stdout);
-        system("/bin/sh");
+        system("/bin/cat /home/user/level5/.pass");
     }
 }
 

