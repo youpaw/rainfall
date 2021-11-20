@@ -38,7 +38,7 @@ But we also need to dereference twice like we want to access to the N class, our
 The value of [esp+0x10] will be replaced with 0x804a00c.
 Because we need to dereference again this address shoul point to the beginning of our shellcode: 0x804a00x + 4 = 0x804a010.
 
-    payload : shell_addr + shellcode + padding + buffer_addr
+    payload: shell_addr + shellcode + padding + buffer_addr
             [4 bytes]   [28 bytes]  [76 bytes]  [4 bytes] = 108 + 4
 
 Our final exploit will look like this:
