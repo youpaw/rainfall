@@ -1,6 +1,6 @@
 # level8 analysis
 
-# main function analysis
+## main function analysis
 
     Dump of assembler code for function main:
     0x08048564 <+0>:     push   ebp
@@ -142,8 +142,6 @@
     0x08048737 <+467>:   pop    ebp
     0x08048738 <+468>:   ret
     End of assembler dump.
-
-## Explanation:
 
     0x08048564 <+0>:     push   ebp
     0x08048565 <+1>:     mov    ebp,esp
